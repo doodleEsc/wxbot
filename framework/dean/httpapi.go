@@ -24,14 +24,10 @@ func (f *Framework) msgFormat(msg string) string {
 		}
 		switch utf8.RuneLen(r) {
 		case 2, 3:
-			buff.WriteString(`[emoji=`)
-			buff.WriteString(fmt.Sprintf("%04x", r) + `]`)
+			buff.WriteString(fmt.Sprintf("\\u%04X", r))
 		case 4:
 			r1, r2 := utf16.EncodeRune(r)
-			buff.WriteString(`[emoji=`)
-			buff.WriteString(fmt.Sprintf("%04x]", r1))
-			buff.WriteString(`[emoji=`)
-			buff.WriteString(fmt.Sprintf("%04x]", r2))
+			buff.WriteString(fmt.Sprintf("\\u%04X\\u%04X", r1, r2))
 		default:
 			buff.WriteString(string(r))
 		}

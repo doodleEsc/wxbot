@@ -3,6 +3,7 @@ package robot
 import (
 	"regexp"
 	"strings"
+	"time"
 )
 
 // User 抽象用户对象，对象可以是好友、群组、公众号
@@ -102,9 +103,17 @@ func (s *Self) CheckUserObjNil() bool {
 
 // Init 初始化获取好友、群、公众号列表
 func (s *Self) Init() error {
-	if _, err := s.Self(); err != nil {
-		return err
+	for {
+		_, err := s.Self()
+		if err != nil {
+			time.Sleep(5 * time.Second)
+			continue
+		}
+		break
 	}
+
+	time.Sleep(5 * time.Second)
+
 	if _, err := s.Friends(true); err != nil {
 		return err
 	}
