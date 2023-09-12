@@ -72,8 +72,9 @@ func (f *Framework) SendText(toWxId, text string) error {
 	payload := map[string]interface{}{
 		"type": "Q0001",
 		"data": map[string]interface{}{
-			"wxid": toWxId,
-			"msg":  f.msgFormat(text),
+			"wxid":   toWxId,
+			"msg":    f.msgFormat(text),
+			"atList": []string{},
 		},
 	}
 
@@ -89,8 +90,9 @@ func (f *Framework) SendTextAndAt(toGroupWxId, toWxId, toWxName, text string) er
 	payload := map[string]interface{}{
 		"type": "Q0001",
 		"data": map[string]interface{}{
-			"wxid": toGroupWxId,
-			"msg":  fmt.Sprintf("[@,wxid=%s,nick=%s,isAuto=true] %s", toWxId, toWxName, f.msgFormat(text)),
+			"wxid":   toGroupWxId,
+			"msg":    f.msgFormat(text),
+			"atList": []string{toWxId},
 		},
 	}
 
